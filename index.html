@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff"><meta name="description" content="家のデバイスをわかりやすく操作するスマートホームアプリ">
+  <link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css"><title>uchi — スマートホーム</title>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#home" aria-label="uchi ホーム"><span class="brand-icon">⌂</span><span><b>uchi</b><small>スマートホーム</small></span></a>
+      <div class="nav-caption">メニュー</div>
+      <nav class="primary-nav" aria-label="メインメニュー">
+        <button class="nav-item active" data-page="home"><span>⌂</span>ホーム</button>
+        <button class="nav-item" data-page="devices"><span>▦</span>デバイス</button>
+        <button class="nav-item" data-page="scenes"><span>✦</span>シーン</button>
+        <button class="nav-item" data-page="settings"><span>⚙</span>接続・設定</button>
+      </nav>
+      <div class="sidebar-foot"><span class="connection-indicator" id="connectionDot"></span><div><b id="connectionLabel">未接続</b><small id="connectionHost">Home Assistant</small></div><button id="sidebarSettings" class="more-button" aria-label="接続設定">···</button></div>
+    </aside>
+    <main class="main-area">
+      <header class="topbar"><div class="mobile-brand"><span class="brand-icon">⌂</span><b>uchi</b></div><div class="breadcrumbs">マイホーム <span>/</span> <b id="pageLabel">ホーム</b></div><div class="top-actions"><span id="dateLabel" class="date-label"></span><button class="icon-btn" id="refresh" aria-label="状態を更新" title="状態を更新">↻</button><button class="profile-btn" data-page="settings" aria-label="設定">家</button></div></header>
+      <section class="page active" id="page-home" data-view="home">
+        <div class="page-title-row"><div><div class="overline" id="greeting">おかえりなさい</div><h1>おうちのようす</h1><p class="subtitle" id="summary">デバイスの状態をまとめて確認できます。</p></div><button class="button secondary" data-page="devices">デバイスを見る <span>→</span></button></div>
+        <div class="welcome-banner"><div class="welcome-icon">⌂</div><div><span class="banner-label">マイホーム</span><h2 id="heroTitle">家の状態をチェックしましょう</h2><p id="heroSub">Home Assistantに接続すると、デバイスを操作できます。</p></div><button class="button dark" id="heroAction">接続する <span>→</span></button></div>
+        <div class="stats-grid"><article class="stat-card"><span class="stat-icon">◉</span><div><small>照明</small><b id="lightCount">—</b></div></article><article class="stat-card"><span class="stat-icon">⌁</span><div><small>その他の機器</small><b id="otherCount">—</b></div></article><article class="stat-card"><span class="stat-icon">▦</span><div><small>部屋</small><b id="roomCount">—</b></div></article><article class="stat-card"><span class="stat-icon">✦</span><div><small>シーン</small><b id="sceneCount">—</b></div></article></div>
+        <div class="content-heading"><div><h2>よく使うデバイス</h2><p>タップして電源を切り替えます</p></div><button class="link-button" data-page="devices">すべて表示 →</button></div>
+        <div id="favoriteGrid" class="device-grid"></div>
+        <div class="content-heading"><div><h2>シーン</h2><p>複数の機器をまとめて操作</p></div><button class="link-button" data-page="scenes">すべて表示 →</button></div><div class="scene-grid" id="homeScenes"></div>
+      </section>
+      <section class="page" id="page-devices" data-view="devices">
+        <div class="page-title-row"><div><div class="overline">YOUR DEVICES</div><h1>デバイス</h1><p class="subtitle">機器の状態を確認して、ここから操作できます。</p></div><button class="button secondary" id="deviceRefresh">↻ 更新</button></div>
+        <div class="toolbar"><label class="search-box"><span>⌕</span><input id="deviceSearch" type="search" placeholder="デバイス名で検索" aria-label="デバイス名で検索"></label><label class="select-wrap"><span class="sr-only">部屋で絞り込み</span><select id="roomFilter"><option value="all">すべての部屋</option></select></label><label class="select-wrap"><span class="sr-only">種類で絞り込み</span><select id="domainFilter"><option value="all">すべての種類</option><option value="light">照明</option><option value="switch">スイッチ</option><option value="climate">エアコン</option><option value="cover">カーテン</option><option value="fan">ファン</option><option value="other">その他</option></select></label></div>
+        <div class="results-label" id="deviceResults"></div><div id="deviceGrid" class="device-grid"></div>
+      </section>
+      <section class="page" id="page-scenes" data-view="scenes">
+        <div class="page-title-row"><div><div class="overline">ONE TAP ROUTINES</div><h1>シーン</h1><p class="subtitle">よくある操作を、ワンタップでまとめて実行。</p></div></div>
+        <div class="hint-card"><span>✦</span><p>シーンの追加や編集はHome Assistantで行えます。ここには設定済みのシーンが自動で表示されます。</p></div><div id="sceneList" class="scene-list"></div>
+      </section>
+      <section class="page" id="page-settings" data-view="settings">
+        <div class="page-title-row"><div><div class="overline">CONNECTION</div><h1>接続・設定</h1><p class="subtitle">Home Assistantにつないで、家のデバイスを操作。</p></div></div>
+        <div class="settings-card"><div class="settings-card-heading"><span class="settings-symbol">⌂</span><div><h2>Home Assistant</h2><p>家のデバイス情報を安全に取得します。</p></div><span class="status-pill" id="settingsStatus">未接続</span></div><div class="settings-fields"><label>Home AssistantのURL<input id="haUrl" type="url" placeholder="https://my-home.example.com" autocomplete="url"></label><label>長期アクセストークン<input id="haToken" type="password" placeholder="Home Assistantのプロフィールから発行" autocomplete="off"></label></div><p class="security-note">接続情報はこのブラウザー内にのみ保存されます。共有端末での保存は避けてください。</p><div class="settings-actions"><button id="connectButton" class="button dark">接続してデバイスを読み込む <span>→</span></button><button id="disconnectButton" class="button secondary">接続情報を削除</button><button id="demoButton" class="button text-only">デモデータを表示</button></div><div class="connect-error" id="connectError" role="alert"></div></div>
+        <div class="help-card"><h2>接続の手順</h2><ol><li>Home AssistantをHTTPSでインターネットまたはローカルネットワークに公開します。</li><li>Home Assistantのプロフィールから長期アクセストークンを発行します。</li><li>上の欄にURLとトークンを入力して接続します。</li></ol><p>GitHub PagesはHTTPSで配信されます。Home Assistant側もHTTPSでアクセスできるURLをご利用ください。別オリジンから接続する場合、Home AssistantでGitHub PagesのURLをCORS許可する必要があります。</p><h3>Google Homeでも使う</h3><p>Home Assistant CloudまたはGoogle Assistant連携を設定すると、同じ機器を「OK Google」対応端末とこのアプリの両方から操作できます。</p></div>
+      </section>
+      <footer><span>uchi · スマートホーム</span><span>Home Assistantと連携</span></footer>
+    </main>
+  </div>
+  <nav class="mobile-nav" aria-label="メインメニュー"><button class="active" data-page="home"><span>⌂</span>ホーム</button><button data-page="devices"><span>▦</span>デバイス</button><button data-page="scenes"><span>✦</span>シーン</button><button data-page="settings"><span>⚙</span>設定</button></nav>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js" defer></script>
+</body>
+</html>

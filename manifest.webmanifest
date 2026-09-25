@@ -1,0 +1,13 @@
+{
+  "name": "uchi home control",
+  "short_name": "uchi",
+  "description": "家のデバイスをひとつの画面から操作",
+  "lang": "ja",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [{ "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
